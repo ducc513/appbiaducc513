@@ -34,7 +34,6 @@
 }
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 [hidden] { display: none !important; }
-:root { padding: env(safe-area-inset-top, 0px) 0 env(safe-area-inset-bottom, 0px); }
 html, body { height: 100%; }
 body {
   margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px;
@@ -43,14 +42,15 @@ body {
 button { font: inherit; color: inherit; cursor: pointer; border: 0; }
 button:focus-visible, input:focus-visible { outline: 3px solid var(--brass); outline-offset: 2px; }
 .app {
-  height: 100%; display: flex; flex-direction: column; gap: 8px;
-  padding-left: max(10px, env(safe-area-inset-left, 0px));
-  padding-right: max(10px, env(safe-area-inset-right, 0px));
-  padding-block: 8px;
+  height: 100%; height: 100dvh; display: flex; flex-direction: column; gap: 12px;
+  padding-left: max(14px, env(safe-area-inset-left, 0px));
+  padding-right: max(14px, env(safe-area-inset-right, 0px));
+  padding-top: max(10px, env(safe-area-inset-top, 0px));
+  padding-bottom: max(12px, env(safe-area-inset-bottom, 0px));
 }
 
 /* top bar */
-.bar { display: flex; gap: 8px; align-items: center; flex: none; }
+.bar { display: flex; gap: 10px; align-items: center; flex: none; }
 .seg { display: flex; background: var(--bar); border-radius: 12px; padding: 4px; gap: 4px; }
 .seg button { padding: 0 16px; height: 40px; border-radius: 9px; font-weight: 700; font-family: var(--font-display); font-size: 16px; color: var(--muted); background: transparent; }
 .seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
@@ -61,9 +61,9 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--brass); out
 .tool:disabled { opacity: .4; }
 
 /* player panels */
-.panels { flex: 1; min-height: 0; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 8px; }
+.panels { flex: 1; min-height: 0; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 14px; }
 .panel {
-  position: relative; border-radius: 18px; padding: 10px; display: flex; flex-direction: column; gap: 8px; min-width: 0; min-height: 0;
+  position: relative; border-radius: 20px; padding: 14px; display: flex; flex-direction: column; gap: 12px; min-width: 0; min-height: 0;
   background: var(--pc); box-shadow: inset 0 -40px 60px rgba(0,0,0,.18);
 }
 .ph { display: flex; justify-content: space-between; align-items: baseline; gap: 6px; }
@@ -79,14 +79,14 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--brass); out
 .panel.lead { box-shadow: inset 0 0 0 3px var(--brass), inset 0 -40px 60px rgba(0,0,0,.18); }
 
 /* balls */
-.balls { display: flex; gap: 8px; justify-content: center; }
+.balls { display: flex; gap: 16px; justify-content: center; }
 .ball { flex: 1; max-width: 76px; aspect-ratio: 1; border-radius: 50%; position: relative; display: grid; place-items: center; overflow: hidden;
   box-shadow: inset -6px -9px 14px rgba(0,0,0,.32), 0 3px 6px rgba(0,0,0,.35); }
 .ball:active { transform: scale(.92); }
 .ball .num { position: relative; z-index: 2; width: 46%; aspect-ratio: 1; border-radius: 50%; background: #fff; color: #111; display: grid; place-items: center; font-family: var(--font-display); font-weight: 700; font-size: clamp(13px, 4vh, 20px); }
 .ball.stripe::before { content: ""; position: absolute; inset: 0; background: linear-gradient(#fff 0 22%, transparent 22% 78%, #fff 78%); z-index: 1; }
 .ball.cham .num { background: #c8282e; color: #fff; width: 40%; font-size: clamp(11px, 3.2vh, 16px); }
-.balls.four { display: grid; grid-template-columns: 1fr 1fr; justify-items: center; gap: 8px; }
+.balls.four { display: grid; grid-template-columns: 1fr 1fr; justify-items: center; gap: 14px 18px; }
 .balls.four .ball { width: min(64px, 100%); }
 .hint { text-align: center; font-size: 12px; opacity: .75; }
 
@@ -97,9 +97,14 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--brass); out
 .cards .big { font-size: clamp(30px, 10vh, 64px); }
 .cards .big > div { line-height: 1; }
 .cards .pm { max-height: 76px; }
+.panel.la { gap: 6px; padding: 12px; }
+.panel.la .cards { min-height: 50px; flex: 1 0 50px; }
+.panel.la .tg, .panel.la .win, .panel.la .row2 { flex-shrink: 0; }
+.panel.la .tg { height: 40px; }
+.panel.la .win { height: 44px; }
 .van { font-size: 18px !important; min-height: 0 !important; }
 .cards .unit { display: block; font-family: var(--font-body); font-size: 12px; font-weight: 600; opacity: .8; }
-.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .tg { height: 48px; border-radius: 12px; background: var(--btn); font-weight: 700; font-size: 15px; }
 .tg[aria-pressed="true"] { background: var(--ink); color: #1a1a1a; }
 .seo { display: grid; grid-template-columns: auto 1fr; }
@@ -149,6 +154,24 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--brass); out
 /* màn hình mở đầu */
 .splash { position: fixed; inset: 0; z-index: 50; background: #050807; display: grid; place-items: center; transition: opacity .5s ease; cursor: pointer; }
 .splash.out { opacity: 0; pointer-events: none; }
+.splash.stage2 { cursor: default; overflow-y: auto; }
+.splash.stage2 .splash-in { display: none; }
+.start { width: 100%; min-height: 100%; display: flex; flex-wrap: wrap; align-items: center; align-content: center; justify-content: center; gap: 28px 48px;
+  padding: max(20px, env(safe-area-inset-top, 0px)) max(20px, env(safe-area-inset-right, 0px)) 56px max(20px, env(safe-area-inset-left, 0px)); position: relative; }
+@media (prefers-reduced-motion: no-preference) { .start { animation: rise .5s ease-out; } }
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } }
+.start-main { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.start-title { font-family: var(--font-display); font-weight: 700; font-size: clamp(28px, 6vw, 44px); letter-spacing: .02em; text-wrap: balance; text-align: center; }
+.start-sub { color: var(--muted); font-size: 14px; letter-spacing: .2em; text-transform: uppercase; }
+.start-btn { margin-top: 18px; height: 60px; min-width: 220px; border-radius: 16px; background: var(--brass); color: #1a1a1a; font-family: var(--font-display); font-weight: 700; font-size: 22px; letter-spacing: .14em; text-transform: uppercase; }
+.start-btn:active { transform: scale(.97); }
+.guide { max-width: 360px; background: var(--bar); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; }
+.guide-h { font-weight: 700; font-size: 15px; }
+.guide ol { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; color: var(--muted); font-size: 14px; line-height: 1.4; }
+.guide ol b { color: var(--ink); }
+.install-btn { height: 46px; border-radius: 12px; background: var(--ink); color: #1a1a1a; font-weight: 700; }
+.credit { position: absolute; left: 0; right: 0; bottom: max(14px, env(safe-area-inset-bottom, 0px)); text-align: center; font-family: var(--font-display); font-size: 12px; letter-spacing: .3em; text-transform: uppercase; color: var(--muted); }
+.credit b { color: var(--brass); text-transform: none; letter-spacing: .2em; }
 .splash-in { display: flex; flex-direction: column; align-items: center; gap: 14px; }
 .splash-line { width: 0; height: 2px; background: var(--brass); animation: line .7s ease-out .1s forwards; }
 .splash-text { font-family: var(--font-display); font-weight: 600; font-size: clamp(16px, 4.5vw, 26px); letter-spacing: .32em; text-transform: uppercase; color: var(--ink); white-space: nowrap; min-height: 1.3em; }
@@ -173,10 +196,23 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--brass); out
 <body>
 
 
-<div class="splash" id="splash" aria-hidden="true">
-  <div class="splash-in">
+<div class="splash" id="splash">
+  <div class="splash-in" id="intro">
     <div class="splash-line"></div>
     <div class="splash-text" id="splashText"></div>
+  </div>
+  <div class="start" id="startScr" hidden>
+    <div class="start-main">
+      <div class="start-title">Sổ điểm bi-a</div>
+      <div class="start-sub">Đánh đền · Bài lá</div>
+      <button class="start-btn" id="startBtn">Start</button>
+    </div>
+    <div class="guide" id="guide">
+      <div class="guide-h">Thêm vào màn hình chính để dùng như app</div>
+      <ol id="guideSteps"></ol>
+      <button class="install-btn" id="installBtn" hidden>Cài app ngay</button>
+    </div>
+    <div class="credit">Created by <b>ducc.513</b></div>
   </div>
 </div>
 
@@ -421,7 +457,7 @@ function renderLa() {
         ])
       );
     }
-    return el("div", { class: "panel", style: "--pc:" + colorOf(p) }, kids);
+    return el("div", { class: "panel la", style: "--pc:" + colorOf(p) }, kids);
   }));
   // el() sets disabled="" even when null; clean up
   document.querySelectorAll('.pm[disabled="null"]').forEach(b => b.removeAttribute("disabled"));
@@ -569,14 +605,45 @@ document.addEventListener("visibilitychange", () => { if (document.visibilitySta
 
 render();
 
-// "Created by ducc.513" gõ từng chữ rồi mờ dần
+// Mở đầu: "Created by ducc.513" gõ từng chữ, rồi sang màn Start.
+// Chưa cài ra màn hình chính thì màn Start kèm hướng dẫn cài.
 (function splash() {
   const sp = $("splash"), tx = $("splashText");
   const pre = "Created by ", name = "ducc.513";
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  let i = reduce ? (pre + name).length : 0, timer;
-  const close = () => { clearTimeout(timer); sp.classList.add("out"); setTimeout(() => sp.remove(), 600); };
-  sp.addEventListener("click", close);
+  const installed = matchMedia("(display-mode: standalone)").matches || matchMedia("(display-mode: fullscreen)").matches || navigator.standalone === true;
+  const ua = navigator.userAgent;
+  const ios = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+  const android = /Android/.test(ua);
+  let i = reduce ? (pre + name).length : 0, timer, staged = false, deferred = null;
+
+  const steps = ios ? [
+    "Mở trang này bằng <b>Safari</b>.",
+    "Bấm nút <b>Chia sẻ</b> (ô vuông có mũi tên lên).",
+    "Chọn <b>Thêm vào MH chính</b>, rồi bấm <b>Thêm</b>.",
+    "Mở app từ icon <b>bi 9</b> trên màn hình."
+  ] : android ? [
+    "Mở trang này bằng <b>Chrome</b>.",
+    "Bấm nút <b>⋮</b> ở góc trên bên phải.",
+    "Chọn <b>Thêm vào màn hình chính</b> hoặc <b>Cài đặt ứng dụng</b>.",
+    "Mở app từ icon <b>bi 9</b> trên màn hình."
+  ] : [
+    "Mở link này trên điện thoại.",
+    "iPhone: Safari → <b>Chia sẻ</b> → <b>Thêm vào MH chính</b>.",
+    "Android: Chrome → <b>⋮</b> → <b>Thêm vào màn hình chính</b>."
+  ];
+  $("guideSteps").innerHTML = steps.map(t => "<li>" + t + "</li>").join("");
+  $("guide").hidden = installed;
+
+  window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); deferred = e; $("installBtn").hidden = installed; });
+  $("installBtn").onclick = async () => { if (!deferred) return; deferred.prompt(); try { await deferred.userChoice; } catch (e) {} deferred = null; $("installBtn").hidden = true; };
+
+  function toStart() {
+    if (staged) return; staged = true; clearTimeout(timer);
+    sp.classList.add("stage2"); $("startScr").hidden = false;
+  }
+  $("startBtn").onclick = () => { keepAwake(); sp.classList.add("out"); setTimeout(() => sp.remove(), 600); };
+  $("intro").addEventListener("click", toStart);
   function draw() {
     const a = pre.slice(0, i), b = i > pre.length ? name.slice(0, i - pre.length) : "";
     tx.replaceChildren(document.createTextNode(a), el("b", { text: b }), el("span", { class: "cur" }));
@@ -584,7 +651,7 @@ render();
   function step() {
     draw();
     if (i < (pre + name).length) { i++; timer = setTimeout(step, 55); }
-    else timer = setTimeout(close, 900);
+    else timer = setTimeout(toStart, 800);
   }
   timer = setTimeout(step, reduce ? 0 : 450);
 })();
