@@ -55,12 +55,15 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--brass); out
 /* top bar */
 .bar { display: flex; gap: 10px; align-items: center; flex: none; }
 .seg { display: flex; background: var(--bar); border-radius: 12px; padding: 4px; gap: 4px; }
-.seg button { padding: 0 16px; height: 40px; border-radius: 9px; font-weight: 700; font-family: var(--font-display); font-size: 16px; color: var(--muted); background: transparent; }
+.seg button { padding: 0 14px; height: 40px; border-radius: 9px; font-weight: 700; font-family: var(--font-display); font-size: 16px; color: var(--muted); background: transparent; }
 .seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
 .spacer { flex: 1; }
 .van-badge { font-family: var(--font-display); font-weight: 700; font-size: 22px; padding: 0 12px; color: var(--brass); white-space: nowrap; font-variant-numeric: tabular-nums; }
-.tool { height: 48px; padding: 0 14px; border-radius: 12px; background: var(--bar); font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+.tool { height: 48px; padding: 0 12px; border-radius: 12px; background: var(--bar); font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
 .tool:active { background: var(--line); }
+.tool.dice, .tool.icon { width: 48px; padding: 0; justify-content: center; flex: none; }
+.tool.dice { color: var(--brass); }
+.tool, .seg button { white-space: nowrap; }
 .tool:disabled { opacity: .4; }
 
 /* player panels */
@@ -149,11 +152,21 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--brass); out
 .hitem button { height: 40px; padding: 0 12px; border-radius: 10px; background: var(--line); }
 .muted { color: var(--muted); font-size: 13px; margin: 0; }
 .danger { background: #6b2620 !important; }
+.rand-name { width: 100%; padding: 22px 12px; border-radius: 18px; background: var(--pc, var(--line)); font-family: var(--font-display); font-weight: 700; font-size: clamp(34px, 11vh, 64px); line-height: 1.1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; transition: background .08s; }
+.rand-name.done { box-shadow: 0 0 0 3px var(--brass); }
+.rand-go { background: var(--brass) !important; color: #1a1a1a; font-weight: 700; }
 .pin { height: 60px; font: inherit; font-family: var(--font-display); font-size: 28px; letter-spacing: .4em; text-align: center; border-radius: 12px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); user-select: text; width: 100%; }
 .pin::placeholder { letter-spacing: normal; font-size: 16px; color: var(--muted); }
 
 .toast { position: fixed; left: 50%; top: max(60px, calc(env(safe-area-inset-top, 0px) + 60px)); transform: translateX(-50%); background: var(--ink); color: #1a1a1a; border-radius: 12px; padding: 10px 16px; font-weight: 600; z-index: 30; box-shadow: 0 6px 20px rgba(0,0,0,.4); }
 
+@media (max-width: 720px) {
+  .seg button { padding: 0 8px; font-size: 14px; }
+  .tool { padding: 0 8px; font-size: 13px; }
+  .tool.dice, .tool.icon { width: 42px; }
+  .van-badge { font-size: 17px; padding: 0 4px; }
+  .bar { gap: 5px; }
+}
 /* màn hình mở đầu */
 .splash { position: fixed; inset: 0; z-index: 50; background: #050807; display: grid; place-items: center; transition: opacity .5s ease; cursor: pointer; }
 .splash.out { opacity: 0; pointer-events: none; }
@@ -222,13 +235,17 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--brass); out
 <div class="app">
   <div class="bar">
     <div class="seg" role="group" aria-label="Chế độ">
-      <button id="m-59">Đền 5-9</button>
-      <button id="m-369">Đền 3-6-9</button>
+      <button id="m-59">5-9</button>
+      <button id="m-369">3-6-9</button>
+      <button id="m-4710">4-7-10</button>
       <button id="m-la">Bài lá</button>
     </div>
     <div class="van-badge" id="vanBadge"></div>
     <div class="spacer"></div>
-    <button class="tool" id="undo">↶ Hoàn tác</button>
+    <button class="tool icon" id="undo" aria-label="Hoàn tác" title="Hoàn tác"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M9 7H4V2M4.5 7A8 8 0 1 1 4 13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <button class="tool dice" id="openRand" aria-label="Random người phá" title="Random người phá">
+      <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="8" r="1.7" fill="currentColor"/><circle cx="16" cy="8" r="1.7" fill="currentColor"/><circle cx="12" cy="12" r="1.7" fill="currentColor"/><circle cx="8" cy="16" r="1.7" fill="currentColor"/><circle cx="16" cy="16" r="1.7" fill="currentColor"/></svg>
+    </button>
     <button class="tool" id="openHist">Lịch sử</button>
     <button class="tool" id="openPlayers">Người chơi</button>
     <button class="tool danger" id="openReset">Reset</button>
@@ -284,6 +301,17 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--brass); out
   </form>
 </div>
 
+<div class="sheet-bg" id="randSheet" hidden>
+  <div class="sheet" style="width:min(520px,100%);align-items:center;text-align:center">
+    <h2>Ai phá ván này?</h2>
+    <div class="rand-name" id="randName">?</div>
+    <div class="row2" style="width:100%">
+      <button class="close" id="randClose">Đóng</button>
+      <button class="close rand-go" id="randGo">Quay lại</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast" hidden></div>
 
 <div class="rotate"><div><div class="phone"></div><p>Xoay ngang điện thoại</p><small>App tính điểm dùng ở màn hình ngang</small></div></div>
@@ -291,9 +319,12 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--brass); out
 <script>
 const MODES = {
   "59":  { label: "5-9",   balls: [{ n: 5, pts: 1 }, { n: 9, pts: 2 }, { n: "Chấm", pts: 12 }] },
-  "369": { label: "3-6-9", balls: [{ n: 3, pts: 1 }, { n: 6, pts: 2 }, { n: 9, pts: 3 }, { n: "Chấm", pts: 12 }] }
+  "369": { label: "3-6-9", balls: [{ n: 3, pts: 1 }, { n: 6, pts: 2 }, { n: 9, pts: 3 }, { n: "Chấm", pts: 12 }] },
+  "4710": { label: "4-7-10", balls: [{ n: 4, pts: 1 }, { n: 7, pts: 2 }, { n: 10, pts: 3 }, { n: "Chấm", pts: 12 }] }
 };
-const BALL_COLOR = { 3: "#c8282e", 5: "#e8761b", 6: "#1e7a3c", 9: "#f2c21b", "Chấm": "#f4f1e8" };
+const BALL_COLOR = { 3: "#c8282e", 4: "#4b2a86", 5: "#e8761b", 6: "#1e7a3c", 7: "#7a1f24", 9: "#f2c21b", 10: "#1f4fb0", "Chấm": "#f4f1e8" };
+// bi kết thúc ván ở mỗi mode đền
+const LAST_BALL = { "59": 9, "369": 9, "4710": 10 };
 const ballName = n => n === "Chấm" ? "bi chấm" : "bi " + n;
 const LA = { perCard: 1, chay: 10, seo: 10, cards: 8, lo10: 2 };
 const PC = ["--p1", "--p2", "--p3", "--p4", "--p5", "--p6"];
@@ -335,8 +366,8 @@ function load() {
     if (raw) {
       const s = JSON.parse(raw);
       s.players.forEach((p, i) => { if (p.c == null) p.c = i % PC.length; });
-      if (s.pin && !s.pins) { s.pins = { "59": s.pin, "369": s.pin, la: s.pin }; delete s.pin; }
-      if (s.mode !== "59" && s.mode !== "369" && s.mode !== "la") s.mode = "369";
+      if (s.pin && !s.pins) { s.pins = { "59": s.pin, "369": s.pin, "4710": s.pin, la: s.pin }; delete s.pin; }
+      if (!MODES[s.mode] && s.mode !== "la") s.mode = "369";
       return s;
     }
   } catch (e) {}
@@ -369,7 +400,7 @@ function el(tag, attrs = {}, kids = []) {
 // mỗi chế độ (Đền 5-9, Đền 3-6-9, Bài lá) có điểm và lịch sử riêng
 const modeOf = h => h.type === "la" ? "la" : h.mode;
 // ván kết thúc khi: đền ăn bi 9, bài lá bấm Ghi ván
-const endsVan = h => h.type === "la" ? !h.lo10 : h.ball === 9;
+const endsVan = h => h.type === "la" ? !h.lo10 : h.ball === (LAST_BALL[h.mode] || 9);
 function vanList() { let v = 1; return inModeAll().map(([h, i]) => { const r = [h, i, v]; if (!h.deleted && endsVan(h)) v++; return r; }); }
 const vanNow = () => inMode().filter(([h]) => endsVan(h)).length + 1;
 // lượt đã xóa vẫn giữ trong lịch sử (hiện dòng đỏ) nhưng không tính điểm
@@ -398,6 +429,7 @@ function toast(msg) {
 function render() {
   $("m-59").setAttribute("aria-pressed", String(S.mode === "59"));
   $("m-369").setAttribute("aria-pressed", String(S.mode === "369"));
+  $("m-4710").setAttribute("aria-pressed", String(S.mode === "4710"));
   $("m-la").setAttribute("aria-pressed", String(isLa()));
   $("undo").disabled = !inMode().length;
   $("vanBadge").textContent = "Ván " + vanNow();
@@ -413,7 +445,7 @@ function renderDen() {
     el("div", { class: "ph" }, [el("span", { class: "pname", text: p.name })]),
     el("div", { class: "big", text: fmt(t[p.id]) }),
     el("div", { class: "balls" + (mode.balls.length > 3 ? " four" : "") }, mode.balls.map(b => el("button", {
-      class: "ball" + (b.n === 9 ? " stripe" : "") + (b.n === "Chấm" ? " cham" : ""), style: "background:" + BALL_COLOR[b.n],
+      class: "ball" + (b.n === 9 || b.n === 10 ? " stripe" : "") + (b.n === "Chấm" ? " cham" : ""), style: "background:" + BALL_COLOR[b.n],
       "aria-label": p.name + " ăn " + ballName(b.n) + ", " + b.pts + " điểm",
       onclick: () => askWho(p.id, b)
     }, [el("span", { class: "num", text: b.n === "Chấm" ? "12" : String(b.n) })]))),
@@ -502,6 +534,28 @@ function commitLo10(eater, fouler) {
   toast(nameOf(eater) + " ăn lỗ 10 · +" + LA.lo10 + " · " + nameOf(fouler) + " -" + LA.lo10);
 }
 
+/* ---------- random người phá ---------- */
+let randTimer = null;
+function rnd(n) { try { const a = new Uint32Array(1); crypto.getRandomValues(a); return a[0] % n; } catch (e) { return Math.floor(Math.random() * n); } }
+function spin() {
+  const ps = S.players; if (!ps.length) return;
+  clearTimeout(randTimer);
+  const box = $("randName"); box.classList.remove("done");
+  const pick = rnd(ps.length);
+  const total = ps.length * 3 + pick + 1;
+  let k = 0, delay = 50;
+  (function tick() {
+    const p = ps[k % ps.length];
+    box.textContent = p.name; box.style.setProperty("--pc", colorOf(p));
+    k++;
+    if (k < total) { delay *= 1.12; randTimer = setTimeout(tick, Math.min(delay, 320)); }
+    else box.classList.add("done");
+  })();
+}
+$("openRand").onclick = () => { $("randSheet").hidden = false; spin(); };
+$("randGo").onclick = spin;
+$("randClose").onclick = () => { clearTimeout(randTimer); $("randSheet").hidden = true; };
+
 /* ---------- sheets ---------- */
 function describe(h) {
   if (h.type === "den") return (MODES[h.mode] ? MODES[h.mode].label : "Đền") + " · " + nameOf(h.eater) + " ăn " + ballName(h.ball) + " của " + (h.fouler != null ? nameOf(h.fouler) : "cả bàn");
@@ -534,6 +588,7 @@ function renderPlayers() {
 function setMode(m) { if (m !== "la") S.lastDen = m; S.mode = m; save(); render(); }
 $("m-59").onclick = () => setMode("59");
 $("m-369").onclick = () => setMode("369");
+$("m-4710").onclick = () => setMode("4710");
 $("m-la").onclick = () => setMode("la");
 $("laGo").onclick = () => {
   if (winner == null) return;
