@@ -46,8 +46,11 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--brass); out
   padding-left: max(14px, env(safe-area-inset-left, 0px));
   padding-right: max(14px, env(safe-area-inset-right, 0px));
   padding-top: max(10px, env(safe-area-inset-top, 0px));
-  padding-bottom: max(12px, env(safe-area-inset-bottom, 0px));
+  padding-bottom: max(20px, env(safe-area-inset-bottom, 0px));
+  position: relative;
 }
+.app-credit { position: absolute; left: 0; right: 0; bottom: max(3px, calc(env(safe-area-inset-bottom, 0px) - 15px)); text-align: center; font-family: var(--font-display); font-size: 10px; line-height: 14px; letter-spacing: .3em; text-transform: uppercase; color: var(--muted); pointer-events: none; }
+.app-credit b { color: var(--brass); text-transform: none; letter-spacing: .15em; }
 
 /* top bar */
 .bar { display: flex; gap: 10px; align-items: center; flex: none; }
@@ -236,6 +239,7 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--brass); out
   <div class="foot" id="foot" hidden>
     <button class="go" id="laGo">Ghi ván</button>
   </div>
+  <div class="app-credit">Created by <b>ducc.513</b></div>
 </div>
 
 <div class="sheet-bg" id="whoSheet" hidden>
